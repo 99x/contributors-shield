@@ -4,31 +4,83 @@ var _ = require('lodash');
 var Jimp = require("jimp");
 
 var page= 1;
-var user = "serverless"; // OWNER
-var repo = "serverless"; // REPO NAME
-var base_url = "https://api.github.com/repos/" + user + "/" + repo + "/contributors?page="+page;
+var user = "uchithaR"; // OWNER
+var repo = "gameTic_Tac_toe"; // REPO NAME
 
+var client_id  = "client_id"
+var client_secret = "client_secret"
+var base_url = "https://api.github.com/repos/" + user + "/" + repo + "/contributors?client_id=" + client_id + "&client_secret=" + client_secret + "&page="+page;
+
+var async =require('async');
 var options = {
     url: base_url,
     headers: {
         'User-Agent': 'contributors'
     }
 };
+function updateURL(page){
+	base_url = "https://api.github.com/repos/" + user + "/" + repo + "/contributors?client_id=" + client_id + "&client_secret=" + client_secret + "&page="+page;
+
+	options = {
+	    url: base_url,
+	    headers: {
+	        'User-Agent': 'contributors'
+	    }
+	};
+}
+
+var dataArr = [];
 
 Jimp.read("base.png", function (err, imageB) {
     if (err) throw err;
-    imageB.resize(800,200)           
-    .write("generated.jpg");
 
 	request(options, function(error, response, body) {
+		if(response.headers.link){
+			var hasNext = true;
+			async.whilst(
+			    function() {  return hasNext; },
+			    function(callback) {
+			    	page ++;
+					updateURL(page);
+			        request(options, function(error, response, body) {
+			        	body = JSON.parse(body);
+			        	if(body != 0){
+			        		console.log("Running "+page)
+							dataArr = dataArr.concat(body);
+			        		callback(null);
+			        	}else{
+			        					        		console.log("Done with "+page)
+
+			        		hasNext = false;
+			        		generateImage(imageB);
+
+			        	}
+
+					});			       
+			    },
+			    function (err, n) {
+
+			    }
+			);
+		}
+		else{
+			dataArr = JSON.parse(body);
+			generateImage(imageB);
+		}
+	});
+
+});
+
+function generateImage(imageB){
+				        		console.log("Done done")
+
 		var x= 70;
-		var data = JSON.parse(body);
-		var rows = Math.ceil(data.length / 4) ;
+		var rows = Math.ceil(dataArr.length / 4) ;
 		var curr_row_y = 70;
 		var count = 0;
 		imageB.resize(800,200*rows)     
 
-	    _.each( data, function(value) {
+	    _.each( dataArr, function(value) {
 	       	Jimp.read(value.avatar_url, function (err, image) {
 				image.scaleToFit(120,Jimp.AUTO) 
 			
@@ -46,7 +98,5 @@ Jimp.read("base.png", function (err, imageB) {
 			});
 	       
 	    });
-	});
-
-});
+}
 

@@ -1,0 +1,24 @@
+{
+  "name": "contributers-shield",
+  "version": "1.0.0",
+  "description": "Generate an image for the contributors of a repo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/99xt/contributors-shield.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/99xt/contributors-shield/issues"
+  },
+  "homepage": "https://github.com/99xt/contributors-shield#readme",
+  "dependencies": {
+    "jimp": "^0.2.27",
+    "lodash": "^4.17.4",
+    "request": "^2.79.0"
+  }
+}

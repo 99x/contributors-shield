@@ -4,12 +4,15 @@ var _ = require('lodash');
 var Jimp = require("jimp");
 
 var page = 1;
-var user = "serverless"; // OWNER
-var repo = "serverless"; // REPO NAME
+
+// GitHub Repo URL should be changed
+var GITHUB_REPO_URL = "https://github.com/99xt/contributors-shield";
+
+var GIT_repo = GITHUB_REPO_URL.replace("https://github.com/", "");
 
 var client_id = "client_id"
 var client_secret = "client_secret"
-var base_url = "https://api.github.com/repos/" + user + "/" + repo + "/contributors?client_id=" + client_id + "&client_secret=" + client_secret + "&page=" + page;
+var base_url = "https://api.github.com/repos/" + GIT_repo + "/contributors?client_id=" + client_id + "&client_secret=" + client_secret + "&page=" + page;
 
 var async = require('async');
 var options = {
@@ -20,8 +23,7 @@ var options = {
 };
 
 function updateURL(page) {
-    base_url = "https://api.github.com/repos/" + user + "/" + repo + "/contributors?client_id=" + client_id + "&client_secret=" + client_secret + "&page=" + page;
-
+    base_url = "https://api.github.com/repos/" + GIT_repo + "/contributors?client_id=" + client_id + "&client_secret=" + client_secret + "&page=" + page;
     options = {
         url: base_url,
         headers: {
@@ -100,8 +102,12 @@ function generateImage(imageB) {
         },
         function(err) {
             imageB.write("generated_overlap.jpg");
-                        console.log("Written to file");
-
+            console.log("Written to file");
         }
     );
+}
+
+function getUserAndRepo(url){
+
+
 }

@@ -4,7 +4,7 @@
   "description": "Generate an image for the contributors of a repo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests added\""
   },
   "repository": {
     "type": "git",

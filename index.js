@@ -8,6 +8,9 @@ var page = 1;
 // GitHub Repo URL should be changed
 var GITHUB_REPO_URL = "https://github.com/99xt/contributors-shield";
 
+// Style Settings
+var backgroundColor = "ffffff"; // background color of image
+
 var GIT_repo = GITHUB_REPO_URL.replace("https://github.com/", "");
 
 var client_id = "client_id"
@@ -37,38 +40,46 @@ var dataArr = [];
 Jimp.read("base.png", function(err, imageB) {
     if (err) throw err;
 
-    request(options, function(error, response, body) {
-        if (response.headers.link) {
-            var hasNext = true;
-            async.whilst(
-                function() {
-                    return hasNext;
-                },
-                function(callback) {
-                    page++;
-                    updateURL(page);
-                    request(options, function(error, response, body) {
-                        body = JSON.parse(body);
-                        if (body != 0) {
-                            console.log("Running Pagination " + page)
-                            dataArr = dataArr.concat(body);
-                            callback(null);
-                        } else {
-                            console.log("Done with " + page)
-                            hasNext = false;
-                            generateImage(imageB);
+    imageB.color([
+        { apply: 'mix', params: [ backgroundColor,100 ] }
+    ],function(err,imageB){
 
-                        }
+        if (err) throw err;
 
-                    });
-                },
-                function(err, n) {
-                }
-            );
-        } else {
-            dataArr = JSON.parse(body);
-            generateImage(imageB);
-        }
+        request(options, function(error, response, body) {
+            if (response.headers.link) {
+                var hasNext = true;
+                async.whilst(
+                    function() {
+                        return hasNext;
+                    },
+                    function(callback) {
+                        page++;
+                        updateURL(page);
+                        request(options, function(error, response, body) {
+                            body = JSON.parse(body);
+                            if (body != 0) {
+                                console.log("Running Pagination " + page)
+                                dataArr = dataArr.concat(body);
+                                callback(null);
+                            } else {
+                                console.log("Done with " + page)
+                                hasNext = false;
+                                generateImage(imageB);
+
+                            }
+
+                        });
+                    },
+                    function(err, n) {
+                    }
+                );
+            } else {
+                dataArr = JSON.parse(body);
+                generateImage(imageB);
+            }
+        });
+
     });
 
 });

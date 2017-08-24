@@ -18,8 +18,11 @@
   "homepage": "https://github.com/99xt/contributors-shield#readme",
   "dependencies": {
     "async": "^2.1.4",
+    "chai": "^4.1.1",
+    "express": "^4.15.4",
     "jimp": "^0.2.27",
     "lodash": "^4.17.4",
-    "request": "^2.79.0"
+    "mocha": "^3.5.0",
+    "request": "^2.81.0"
   }
 }

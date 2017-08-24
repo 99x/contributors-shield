@@ -10,6 +10,7 @@ var GITHUB_REPO_URL = "https://github.com/99xt/contributors-shield";
 
 // Style Settings
 var backgroundColor = "ffffff"; // background color of image
+var backgroundOpacity = 0; // 0 for no background mode
 
 var GIT_repo = GITHUB_REPO_URL.replace("https://github.com/", "");
 
@@ -42,7 +43,7 @@ Jimp.read("base.png", function(err, imageB) {
 
     imageB.color([
         { apply: 'mix', params: [ backgroundColor,100 ] }
-    ],function(err,imageB){
+    ]).opacity(backgroundOpacity,function(err,imageB){
 
         if (err) throw err;
 
@@ -112,7 +113,7 @@ function generateImage(imageB) {
             });
         },
         function(err) {
-            imageB.write("generated_overlap.jpg");
+            imageB.write("generated_overlap.png");
             console.log("Written to file");
         }
     );

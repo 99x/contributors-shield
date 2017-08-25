@@ -10,7 +10,7 @@ var GITHUB_REPO_URL = "https://github.com/99xt/contributors-shield";
 
 // Style Settings
 var backgroundColor = "ffffff"; // background color of image
-var backgroundOpacity = 0; // 0 for no background mode
+var backgroundOpacity = 1; // 0 for no background mode
 
 var GIT_repo = GITHUB_REPO_URL.replace("https://github.com/", "");
 

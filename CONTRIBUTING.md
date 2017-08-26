@@ -1,4 +1,7 @@
-# Contributor's Guide
+
+# Contributor's Guide 
+
+## Contributing to contributors-shield
 
 HOW TO CONTRIBUTE TO OPEN SOURCE accepts PR's(pull requests) from **newbies** only, this is to help **newbies** get familiar with contribution processes.
 
@@ -9,8 +12,12 @@ Issues can be submitted by anyone, seasoned developers or newbies.
 1.  If you are new to Git and Github, it is advisable you go through [this link](http://readwrite.com/2013/09/30/understanding-github-a-journey-for-beginners-part-1/) before moving to the next step.
 
 2.  Fork the project on Github, [Help Guide to Fork a repository](https://help.github.com/articles/fork-a-repo/).
-[![fork_Imag.png](https://s30.postimg.org/3qp4uxnb5/fork_Imag.png)](https://postimg.org/image/vqt8f7qrh/)
+[![fork-screenshot.png](https://s29.postimg.org/etyi7j24n/fork-screenshot.png)](https://postimg.org/image/5m69qtv2b/)
 3.  Clone the project.
+    
+    ```
+    git clone https://github.com/99xt/contributors-shield.git
+    ```
 4.  Create a branch specific to the issue you are working on.
     
     ```
@@ -63,7 +70,6 @@ In a situation where by somebody decides to fix an issue but doesn't follow up f
 *Note*: Every open-source project has a **CONTRIBUTING.md** file, please make sure to read theirs before you open up a pull request, otherwise your pull request may be rejected.
 However if you do not see any contributing.md file, you can send a pull request but do it in a descriptive manner.
 
-### Helpful Resources
--    [Pro GIT Book](https://git-scm.com/book/en/v2)
+### We cheer you to pitch in and [join the team](https://github.com/99xt/contributors-shield/graphs/contributors)!
 
--    [Try Git](https://try.github.io/)
+Thanks !! 

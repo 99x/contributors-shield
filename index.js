@@ -2,6 +2,10 @@ var request = require('request');
 var fs = require('fs');
 var _ = require('lodash');
 var Jimp = require("jimp");
+var AWS = require('aws-sdk');
+var uuid = require('node-uuid');
+var path = require('path');
+var s3 = new AWS.S3();
 
 var page = 1;
 
@@ -11,6 +15,13 @@ var GITHUB_REPO_URL = "https://github.com/99xt/contributors-shield";
 // Style Settings
 var backgroundColor = "ffffff"; // background color of image
 var backgroundOpacity = 1; // 0 for no background mode
+
+// Remote upload Settings
+var uploadToS3Bucket = true;
+var bucketOptions = {
+    bucketName: '99xtest2',
+    key: '' // optional eg :- filename.png
+};
 
 var GIT_repo = GITHUB_REPO_URL.replace("https://github.com/", "");
 
@@ -24,6 +35,37 @@ var options = {
     headers: {
         'User-Agent': 'contributors'
     }
+};
+
+var validateKey = function (key) {
+    var key = key || uuid.v1(),
+        extension = path.extname(key);
+    if (!!extension && extension === '.png') {
+        return key;
+    } else {
+        return key + '.png';
+    }
+};
+
+var uploadToS3 = function(options, image) {
+    image.getBuffer('image/png',function (err, buffer) {
+        var params = {
+            Bucket: options.bucketName,
+            Key: validateKey(options.key),
+            Body: buffer,
+            ContentType: 'image/png'
+        };
+
+        s3.putObject(params, function(err, response) {
+            if (err) {
+                console.log('[UploadFailure] ' + err);
+            } else {
+                console.log('uploaded to s3');
+                console.log('Filename : ' + params.Key);
+            }
+        });
+    });
+
 };
 
 function updateURL(page) {
@@ -115,6 +157,8 @@ function generateImage(imageB) {
         function(err) {
             imageB.write("generated_overlap.png");
             console.log("Written to file");
+            if(uploadToS3Bucket)
+                uploadToS3(bucketOptions,imageB);
         }
     );
 }
